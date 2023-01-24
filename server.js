@@ -3,6 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const util = require("util");
 
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
+
 //setting server up
 const app = express();
 const PORT = process.env.port || 3001;
@@ -10,7 +13,8 @@ const PORT = process.env.port || 3001;
 //middleware
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.static("./Develop/public"));
+
+app.use(express.static("./develop/public"));
 
 //HTML Routes
 app.get("/notes", function(req, res){
