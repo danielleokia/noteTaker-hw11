@@ -32,7 +32,18 @@ app.post("/notes", (req, res) => {
 //DELETE request
 app.delete("/notes/:id", (req, res) => {
    const deleteId = parseInt(req.params.id);
+   readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
+    const notes = [].concat(JSON.parse(data));
+    const newNotes = []
+    for (let i = 0; i<notes.length; i++) {
+        if(deleteId !== notes[i].id) {
+            newNotes.push(notes[i])
+        }
+    }
+     return newNotes
+   }).then(function(notes) {
+     writeFileAsync("./develop/db/db.json", JSON.stringify(notes))
+     res.send("success!");
+   })
 
-}
-
-)
+})
