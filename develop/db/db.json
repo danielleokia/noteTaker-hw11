@@ -1,6 +1,1 @@
-[
-    {
-        "title":"Test Title",
-        "text":"Test text"
-    }
-]
+[{"id":"1","title":"Test Title","text":"Test text"},{"title":"Sunday","text":"tidy up bedroom\n","id":2},{"title":"Monday","text":"Hand in hw","id":3},{"title":"Groceries","text":"milk\neggs\nbread\nyoghurt","id":4},{"title":"favorite meals","text":"spaghetti & meatballs\n\nfish n chips\n\nshrimp fried rice","id":5}]

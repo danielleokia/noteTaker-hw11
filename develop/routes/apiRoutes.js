@@ -1,12 +1,14 @@
 const fs = require("fs");
 const util = require("util");
+const router = require("./htmlRoutes");
 const app = require("express").Router();
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-//GET request
+//GET all notes
 app.get("/notes", (req, res) =>  {
- readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
+  
+ readFileAsync("./db/db.json", "utf8").then(function(data) {
     notes = [].concat(JSON.parse(data))
     res.json(notes);
  })
@@ -14,25 +16,26 @@ app.get("/notes", (req, res) =>  {
 });
 
 
-//POST request
+//add a note
 app.post("/notes", (req, res) => {
   const note = req.body;
-  readFileAsync("./develop/db/db.json", "utf8").then(function(data){
+  
+  readFileAsync("./db/db.json", "utf8").then(function(data){
     const notes = [].concat(JSON.parse(data));
     note.id = notes.length + 1
     notes.push(note);
     return notes
   }).then(function(notes) {
-    writeFileAsync("./develop/db/db.json", JSON.stringify(notes))
+    writeFileAsync("./db/db.json", JSON.stringify(notes))
     res.json(note);
   })
 
 });
 
-//DELETE request
+//DELETE a note
 app.delete("/notes/:id", (req, res) => {
    const deleteId = parseInt(req.params.id);
-   readFileAsync("./develop/db/db.json", "utf8").then(function(data) {
+   readFileAsync("./db/db.json", "utf8").then(function(data) {
     const notes = [].concat(JSON.parse(data));
     const newNotes = []
     for (let i = 0; i<notes.length; i++) {
@@ -42,8 +45,10 @@ app.delete("/notes/:id", (req, res) => {
     }
      return newNotes
    }).then(function(notes) {
-     writeFileAsync("./develop/db/db.json", JSON.stringify(notes))
+     writeFileAsync("./db/db.json", JSON.stringify(notes))
      res.send("success!");
    })
 
 })
+
+module.exports = app;
